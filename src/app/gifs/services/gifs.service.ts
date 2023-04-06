@@ -57,7 +57,7 @@ export class GifsService {
 
     }
 
-    console.log(this._historial);
+    // console.log(this._historial);
 
     // PETICION HTTP
     const params = new HttpParams()
@@ -67,7 +67,7 @@ export class GifsService {
 
     this.http.get<SearchGIFResponse>(`${this.servicioUrl}/search`, { params })
       .subscribe((resp: SearchGIFResponse) => {
-        console.log(resp.data);
+        // console.log(resp.data);
         this.resultados = resp.data;
         localStorage.setItem('resultados', JSON.stringify(this.resultados));
       });
