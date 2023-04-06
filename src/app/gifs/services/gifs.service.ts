@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { Gif, SearchGIFResponse } from '../interfaces/gifs.interface';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +12,7 @@ export class GifsService {
   private _historial: string[] = [];
 
   // TODO: Cambiar any por el tipo de dato correcto
-  public resultados: any[] = [];
+  public resultados: Gif[] = [];
 
   get historial() {
     /* Una manera de cortar el array es haciendo lo siguiente,
@@ -34,8 +36,8 @@ export class GifsService {
     console.log(this._historial);
 
     // PETICION HTTP
-    this.http.get(`https://api.giphy.com/v1/gifs/search?api_key=R23VXsjAyA3M40Qt2ZNjQFrZcPpcPltu&q=${query}&limit=10`)
-    .subscribe( (resp: any) => {
+    this.http.get<SearchGIFResponse>(`https://api.giphy.com/v1/gifs/search?api_key=R23VXsjAyA3M40Qt2ZNjQFrZcPpcPltu&q=${query}&limit=10`)
+    .subscribe( (resp: SearchGIFResponse) => {
       console.log(resp.data);
       this.resultados = resp.data;
     });
