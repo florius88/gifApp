@@ -38,7 +38,7 @@ export class GifsService {
     /* Otra manera de hacerlo es con los pipes, si es null, que me devuelva un 
     array vacio     */
     this._historial = JSON.parse(localStorage.getItem('historial')!) || [];
-
+    this.resultados = JSON.parse(localStorage.getItem('resultados')!) || [];
 
   }
 
@@ -63,8 +63,8 @@ export class GifsService {
     .subscribe( (resp: SearchGIFResponse) => {
       console.log(resp.data);
       this.resultados = resp.data;
+      localStorage.setItem('resultados', JSON.stringify(this.resultados));
     });
-
     
   }
 
