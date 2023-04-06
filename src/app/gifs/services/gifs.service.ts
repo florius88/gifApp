@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Gif, SearchGIFResponse } from '../interfaces/gifs.interface';
@@ -8,7 +8,8 @@ import { Gif, SearchGIFResponse } from '../interfaces/gifs.interface';
 })
 export class GifsService {
 
-  private _apiKey: string = 'R23VXsjAyA3M40Qt2ZNjQFrZcPpcPltu'
+  private apiKey: string = 'R23VXsjAyA3M40Qt2ZNjQFrZcPpcPltu'
+  private servicioUrl: string = 'https://api.giphy.com/v1/gifs';
   private _historial: string[] = [];
 
   // TODO: Cambiar any por el tipo de dato correcto
@@ -21,7 +22,7 @@ export class GifsService {
     return [...this._historial];
   }
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
 
     /* Recuperando datos del LocalStorage
     Esto podria funcionar, pero nos podria devolver un null
@@ -59,13 +60,18 @@ export class GifsService {
     console.log(this._historial);
 
     // PETICION HTTP
-    this.http.get<SearchGIFResponse>(`https://api.giphy.com/v1/gifs/search?api_key=R23VXsjAyA3M40Qt2ZNjQFrZcPpcPltu&q=${query}&limit=10`)
-    .subscribe( (resp: SearchGIFResponse) => {
-      console.log(resp.data);
-      this.resultados = resp.data;
-      localStorage.setItem('resultados', JSON.stringify(this.resultados));
-    });
-    
+    const params = new HttpParams()
+      .set('api_key', this.apiKey)
+      .set('limit', '10')
+      .set('q', query);
+
+    this.http.get<SearchGIFResponse>(`${this.servicioUrl}/search`, { params })
+      .subscribe((resp: SearchGIFResponse) => {
+        console.log(resp.data);
+        this.resultados = resp.data;
+        localStorage.setItem('resultados', JSON.stringify(this.resultados));
+      });
+
   }
 
 }
