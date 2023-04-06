@@ -7,7 +7,8 @@
 
     <div class="list-group list-reset">
         <a href="#" class="list-group-item list-group-item-action" 
-        *ngFor="let item of historial">
+        *ngFor="let item of historial"
+        (click)="buscar(item)" >
             {{ item | titlecase }} <!-- este pipe se encarga de hacer el capitalizado -->
         </a>
     </div>
